@@ -4,10 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"; // Import ShadCN Select components
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
-
 
 type Props = {};
 
@@ -19,7 +18,13 @@ const Home = (props: Props) => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(formData);
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRankChange = (value: string) => {
+    console.log(formData);
+    setFormData({ ...formData, rank: value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -66,17 +71,27 @@ const Home = (props: Props) => {
                   required
                 />
               </div>
+
+              {/* Rank select dropdown */}
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="rank">Rank</Label>
-                <Input
-                  id="rank"
-                  name="rank"
-                  value={formData.rank}
-                  onChange={handleChange}
-                  placeholder="Enter your rank"
-                  required
-                />
+                <Select value={formData.rank} onValueChange={handleRankChange} required>
+                  <SelectTrigger id="rank" name="rank">
+                    <SelectValue placeholder="Select your rank" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Iron">Iron</SelectItem>
+                    <SelectItem value="Bronze">Bronze</SelectItem>
+                    <SelectItem value="Gold">Gold</SelectItem>
+                    <SelectItem value="Platinum">Platinum</SelectItem>
+                    <SelectItem value="Diamond">Diamond</SelectItem>
+                    <SelectItem value="Ascendant">Ascendant</SelectItem>
+                    <SelectItem value="Immortal">Immortal</SelectItem>
+                    <SelectItem value="Radiant">Radiant</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
+
               <div className="flex flex-col space-y-1.5">
                 <Label htmlFor="riotID">RiotID</Label>
                 <Input
