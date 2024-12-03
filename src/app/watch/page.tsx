@@ -2,9 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { DataIncoming, DataSchema } from '../types/dataType';
-import VideoPlayer from '../components/videoPlayer';
+import VideoPlayer from '../components/VideoPlayer';
 import { Button } from '@/components/ui/button';
-
+import { signIn } from "next-auth/react";
 
 const WatchPage = () => {
     const [data, setData] = useState<DataIncoming | null>(null);
@@ -18,14 +18,12 @@ const WatchPage = () => {
             }
         } catch (err) {
             setError(false);
-            console.log(err);
+            // console.log(err);
         }
     }
 
     const fetchData = async () => {
-        console.log("inside fetch data")
         try {
-            console.log("inside try catch");
             const response = await axios.get('http://localhost:5000/api/retriveOne');
 
             const data = DataSchema.parse(response.data);
