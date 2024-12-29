@@ -8,4 +8,15 @@ export const DataSchema = z.object({
   riotID: z.string(),
 });
 
+export const ValidRanks: string[] = [
+  "Iron",
+  "Bronze",
+  "Gold",
+  "Platinum",
+  "Diamond",
+  "Ascendant",
+  "Immortal",
+  "Radiant",
+];
+
 export type DataIncoming = z.infer<typeof DataSchema>;

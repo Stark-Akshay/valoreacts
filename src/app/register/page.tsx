@@ -7,13 +7,21 @@ import { ToastContainer, toast } from 'react-toastify';
 import { register } from '../../../actions/user';
 import 'react-toastify/dist/ReactToastify.css';
 import RegisterComponent from '../(components)/Register';
+import { auth } from '../../../auth';
+import { redirect } from 'next/navigation';
 
 
 //change just this to a separate client component
-const Register = () => {
-
+const Register = async () => {
+    const session = await auth();
+    if (session?.user.role == "admin") {
+        redirect('/watch')
+    }
+    if (session?.user.role == "user") {
+        redirect('/');
+    }
     return (
-        <div>
+        <div className='bg-valobg bg-cover'>
             <RegisterComponent />
         </div>
     );

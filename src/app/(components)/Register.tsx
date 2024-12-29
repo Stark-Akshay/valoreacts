@@ -7,9 +7,11 @@ import { Button } from '@/components/ui/button';
 import { ToastContainer, toast } from 'react-toastify';
 import { register } from '../../../actions/user';
 import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation';
+
 
 const RegisterComponent = () => {
-
+    const router = useRouter();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
@@ -18,6 +20,13 @@ const RegisterComponent = () => {
             const result = await register(formData);
             if (result.success) {
                 toast.success("Registration successful!");
+                router.push('/login')
+            }
+            else {
+                toast.error("You have already registered! Redirecting to Login.");
+                setTimeout(() => {
+                    router.push('/login');
+                }, 3000);
             }
         } catch (error: any) {
             toast.error(error.message || "An unexpected error occurred");

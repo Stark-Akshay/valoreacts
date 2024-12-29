@@ -7,10 +7,13 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"; // Import ShadCN Select components
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 type Props = {};
 
 const Home = (props: Props) => {
+
   const [formData, setFormData] = useState({
     url: '',
     rank: '',
@@ -18,12 +21,12 @@ const Home = (props: Props) => {
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(formData);
+    // console.log(formData);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleRankChange = (value: string) => {
-    console.log(formData);
+    // console.log(formData);
     setFormData({ ...formData, rank: value });
   };
 
@@ -39,7 +42,7 @@ const Home = (props: Props) => {
       });
 
       if (response.ok) {
-        toast.success('Data submitted successfully!');
+        toast.success('Video submitted successfully!');
         setFormData({ url: '', rank: '', riotID: '' });
       } else {
         const data = await response.json();
@@ -51,7 +54,7 @@ const Home = (props: Props) => {
   };
 
   return (
-    <div className='w-full h-screen flex justify-center items-center'>
+    <div className='w-full h-screen flex justify-center items-center bg-watchpagebg bg-cover '>
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Submit Your Data</CardTitle>

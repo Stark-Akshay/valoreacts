@@ -1,6 +1,11 @@
 "use server";
 
+import { CredentialsSignin } from "next-auth";
+
 import z from "zod";
+import { signIn } from "../auth";
+import { redirect } from "next/navigation";
+
 const registerSchema = z.object({
   ign: z
     .string()
@@ -10,6 +15,27 @@ const registerSchema = z.object({
     .string()
     .min(6, { message: "Password must be atleast 6 characters long" }),
 });
+
+const login = async (formData: FormData) => {
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+
+  try {
+    const result = await signIn("credentials", {
+      redirect: false,
+      callbackUrl: "/",
+      email,
+      password,
+    });
+    if (!result) {
+      return { success: false };
+    }
+    return { success: true };
+  } catch (error) {
+    console.error("Login Error:", error);
+    // Optional: Handle error display logic, e.g., sending it back to the UI
+  }
+};
 
 const register = async (formData: FormData) => {
   try {
@@ -32,7 +58,7 @@ const register = async (formData: FormData) => {
     if (response.status == 200) {
       return { success: true };
     } else {
-      throw new Error("User Registeration failed!");
+      return { success: false };
     }
   } catch (err) {
     // Return Zod validation errors
@@ -40,8 +66,9 @@ const register = async (formData: FormData) => {
       const errors = err.errors.map((e) => e.message).join(", ");
       throw new Error(errors); // Pass the error messages to the client
     }
-    throw new Error("An unexpected error occurred");
+    const error: any = err; // this is not the right solution.
+    throw new Error(error); // error to be fixed.
   }
 };
 
-export { register };
+export { register, login };
