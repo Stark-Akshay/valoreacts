@@ -75,9 +75,10 @@ const WatchComponent = () => {
     }
 
     return data ? (
-        <div className={`w-auto flex justify-center items-center flex-col ${feedback === "success" ? "border-4 border-green-500" : ""}`}>
+        <div className={`w-auto flex justify-center items-center flex-col`}>
             <VideoPlayer data={data} />
             {feedback === "failure" && <p className="text-red-500 text-xl">Incorrect Rank! Try Again!</p>}
+            {feedback === "success" && <p className="text-green-500 text-xl">Well guessed!!</p>}
             <div className="flex flex-row flex-wrap justify-around w-[80%] py-5">
                 {
                     ValidRanks.map(rank => (
