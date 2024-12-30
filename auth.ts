@@ -18,13 +18,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         }
 
         try {
-          const response = await fetch("http://localhost:5000/api/getUser", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-          });
+          const response = await fetch(
+            "https://valoreact-api.onrender.com/api/getUser",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, password }),
+            }
+          );
 
           if (!response.ok) {
             const errorData = await response.json();

@@ -47,13 +47,16 @@ const register = async (formData: FormData) => {
     });
 
     // Proceed with your registration logic (e.g., save to DB)
-    const response = await fetch("http://localhost:5000/api/registerUser", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+    const response = await fetch(
+      "https://valoreact-api.onrender.com/api/registerUser",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
 
     if (response.status == 200) {
       return { success: true };
