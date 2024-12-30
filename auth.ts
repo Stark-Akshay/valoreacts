@@ -62,7 +62,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
   callbacks: {
     async jwt({ token, user }) {
-      if (user && "role" in user) {
+      if (user) {
         token.role = user.role; // Add role to token
         // token.sub = user.id; // Add user ID to token
       }
@@ -70,7 +70,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
     async session({ session, token }) {
       if (typeof token?.role === "string") {
-        session.user = session.user || {};
         session.user.role = token.role; // Now it's guaranteed to be a string
       }
       return session;
