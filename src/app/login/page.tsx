@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 
 import LoginComponent from '../(components)/Login';
-import { login } from '../../../actions/user';
 import { auth } from '../../../auth';
 import { redirect } from 'next/navigation';
+import { ToastContainer } from 'react-toastify';
 
 
 const Login = async () => {
@@ -17,6 +17,7 @@ const Login = async () => {
     return (
         <div className='bg-valobg bg-cover'>
             <LoginComponent />
+            <ToastContainer />
         </div>
 
     )

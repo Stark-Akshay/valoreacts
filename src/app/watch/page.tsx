@@ -1,7 +1,10 @@
 import { Button } from '@/components/ui/button';
-import WatchComponent from '../(components)/WatchComponent';
+
 import { auth, signOut } from '../../../auth';
 import { redirect } from 'next/navigation';
+import { lazy, Suspense } from 'react';
+
+const LazyVideoComponent = lazy(() => import('../(components)/WatchComponent'));
 
 
 const WatchPage = async () => {
@@ -21,7 +24,10 @@ const WatchPage = async () => {
                 <Button type='submit' className='bg-red-600'>Logout</Button>
             </form>
 
-            <WatchComponent />
+            {/* <WatchComponent /> */}
+            <Suspense fallback={<div>Loading the video component!</div>}>
+                <LazyVideoComponent />
+            </Suspense>
         </div>
     )
 }
