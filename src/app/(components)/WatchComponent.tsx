@@ -6,6 +6,8 @@ import { DataIncoming, DataSchema } from "../types/dataType";
 import VideoPlayer from "../components/VideoPlayer";
 import { Button } from "@/components/ui/button";
 import { ValidRanks } from "../types/dataType";
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const WatchComponent = () => {
     const [data, setData] = useState<DataIncoming | null>(null);
@@ -87,7 +89,22 @@ const WatchComponent = () => {
                 }
             </div>
         </div>
-    ) : <p>Loading...</p>;
+    ) : <div className={`w-auto flex justify-center items-center flex-col`}>
+        <Skeleton enableAnimation={true} height={500} width={850} baseColor="#979797" borderRadius={0} />
+        <div className="flex flex-row flex-wrap justify-around w-[80%] py-5">
+            {Array.from({ length: 8 }, (_, index) => (
+                <Skeleton
+                    key={index}
+                    enableAnimation={true}
+                    height={50}
+                    width={100}
+                    baseColor="#d3d3d3"
+                    borderRadius={5}
+                />
+            ))}
+
+        </div>
+    </div>
 };
 
 export default WatchComponent;
