@@ -3,11 +3,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { toast, ToastContainer } from 'react-toastify';
 import { useRouter } from "next/navigation";
 import { login } from "../../../actions/user";
+import { useState } from "react";
 const LoginComponent = () => {
     const router = useRouter();
+    const [error, setError] = useState<boolean>(false);
+    const [formMessage, setFormMessage] = useState<string>('');
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
@@ -15,17 +17,19 @@ const LoginComponent = () => {
         try {
             const result = await login(formData);
             if (result?.success) {
-                toast.success("Registration successful!");
-                router.push('/login')
+                setError(false);
+                router.push('/watch');
             }
             else {
-                toast.error("Could not log you in or Please register!");
+                setError(true);
+                setFormMessage("Couldn't log you in, Please register");
                 setTimeout(() => {
                     router.push('/register');
                 }, 3000);
             }
         } catch (error: any) {
-            toast.error(error.message || "An unexpected error occurred");
+            setError(true);
+            setFormMessage
         }
     };
 
@@ -60,6 +64,7 @@ const LoginComponent = () => {
                                     required
                                 />
                             </div>
+                            {error && <p className="text-red-900 text-md">{formMessage}</p>}
                         </div>
                         <CardFooter className="flex justify-between mt-4">
                             <Button variant="outline" type="reset">
@@ -70,7 +75,6 @@ const LoginComponent = () => {
                     </form>
                 </CardContent>
             </Card>
-            <ToastContainer />
         </div>
     );
 }
