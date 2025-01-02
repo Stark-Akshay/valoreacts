@@ -17,7 +17,6 @@ const Login = async () => {
     return (
         <div className='bg-valobg bg-cover'>
             <LoginComponent />
-            <ToastContainer />
         </div>
 
     )

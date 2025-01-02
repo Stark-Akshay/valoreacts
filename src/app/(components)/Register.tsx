@@ -1,16 +1,16 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from "@/components/ui/input";
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ToastContainer, toast } from 'react-toastify';
 import { register } from '../../../actions/user';
-import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
 
 
 const RegisterComponent = () => {
+    const [error, setError] = useState<boolean>(false);
+    const [formMessage, setFormMessage] = useState<string>('');
     const router = useRouter();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -18,18 +18,20 @@ const RegisterComponent = () => {
 
         try {
             const result = await register(formData);
-            if (result.success) {
-                toast.success("Registration successful!");
+            if (result?.success) {
+                setError(false);
+                setFormMessage("Registration successful")
                 router.push('/login')
             }
             else {
-                toast.error("You have already registered! Redirecting to Login.");
+                setError(true);
+                setFormMessage("You have already registered! Redirecting to Login.");
                 setTimeout(() => {
                     router.push('/login');
                 }, 3000);
             }
         } catch (error: any) {
-            toast.error(error.message || "An unexpected error occurred");
+            setFormMessage(error.message || "An unexpected error occurred");
         }
     };
     return (
@@ -74,6 +76,7 @@ const RegisterComponent = () => {
                                     required
                                 />
                             </div>
+                            {error && <p className="text-red-900 text-md">{formMessage}</p>}
                         </div>
                         <CardFooter className="flex justify-between mt-4">
                             <Button variant="outline" type="reset">
@@ -84,7 +87,6 @@ const RegisterComponent = () => {
                     </form>
                 </CardContent>
             </Card>
-            <ToastContainer />
         </div>
     );
 
