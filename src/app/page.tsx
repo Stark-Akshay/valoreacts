@@ -55,7 +55,7 @@ const Home = (props: Props) => {
   };
 
   return (
-    <div className='w-full h-screen flex justify-center items-center bg-watchpagebg bg-cover '>
+    <div className='w-full h-screen flex flex-col justify-center items-center bg-watchpagebg bg-cover '>
       <Card className="w-[350px]">
         <CardHeader>
           <CardTitle>Submit Your Data</CardTitle>
@@ -108,11 +108,13 @@ const Home = (props: Props) => {
                 />
               </div>
             </div>
-            <CardFooter className="flex justify-between mt-4">
-              <Button variant="outline" type="reset" onClick={() => setFormData({ url: '', rank: '', riotID: '' })}>
-                Reset
-              </Button>
-              <Button type="submit">Submit</Button>
+            <CardFooter className="flex flex-col justify-between mt-4">
+              <div className='flex flex-row w-full justify-between'>
+                <Button variant="outline" type="reset" onClick={() => setFormData({ url: '', rank: '', riotID: '' })}>
+                  Reset
+                </Button>
+                <Button type="submit">Submit</Button>
+              </div>
             </CardFooter>
           </form>
         </CardContent>
