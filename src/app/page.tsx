@@ -9,6 +9,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
+import { Instruction } from './(components)/Instruction';
 
 type Props = {};
 
@@ -116,6 +117,7 @@ const Home = (props: Props) => {
           </form>
         </CardContent>
       </Card>
+      <Instruction />
       <ToastContainer />
     </div>
   );
