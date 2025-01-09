@@ -10,6 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
 import { Instruction } from './(components)/Instruction';
+import { FaArrowRight } from "react-icons/fa";
+import { RiResetLeftFill } from "react-icons/ri";
+
 
 type Props = {};
 
@@ -34,7 +37,7 @@ const Home = (props: Props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://valoreact-api.onrender.com/api/checking', {
+      const response = await fetch('http://localhost:5000/api/checking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -56,16 +59,16 @@ const Home = (props: Props) => {
 
   return (
     <div className='w-full h-screen flex flex-col justify-center items-center bg-watchpagebg bg-cover '>
-      <Card className="w-[350px]">
+      <Card className="w-[400px] h-[400px] sm:w-[450px] sm:h-[500px] bg-white rounded-none">
         <CardHeader>
-          <CardTitle>Submit Your Data</CardTitle>
-          <CardDescription>Enter your URL, Rank, and RiotID.</CardDescription>
+          <CardTitle className='text-2xl'>Submit your video clip</CardTitle>
+          <CardDescription className='text-md'>Enter your YouTube URL, Rank, and RiotID.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="url">URL</Label>
+                {/* <Label htmlFor="url">URL</Label> */}
                 <Input
                   id="url"
                   name="url"
@@ -73,14 +76,15 @@ const Home = (props: Props) => {
                   onChange={handleChange}
                   placeholder="Enter the URL"
                   required
+                  className='text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md'
                 />
               </div>
 
               {/* Rank select dropdown */}
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="rank">Rank</Label>
+                {/* <Label htmlFor="rank">Rank</Label> */}
                 <Select value={formData.rank} onValueChange={handleRankChange} required>
-                  <SelectTrigger id="rank" name="rank">
+                  <SelectTrigger className='text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md' id="rank" name="rank">
                     <SelectValue placeholder="Select your rank" />
                   </SelectTrigger>
                   <SelectContent>
@@ -97,7 +101,7 @@ const Home = (props: Props) => {
               </div>
 
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="riotID">RiotID</Label>
+                {/* <Label htmlFor="riotID">RiotID</Label> */}
                 <Input
                   id="riotID"
                   name="riotID"
@@ -105,15 +109,16 @@ const Home = (props: Props) => {
                   onChange={handleChange}
                   placeholder="Enter your RiotID"
                   required
+                  className='text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md'
                 />
               </div>
             </div>
             <CardFooter className="flex flex-col justify-between mt-4">
               <div className='flex flex-row w-full justify-between'>
-                <Button variant="outline" type="reset" onClick={() => setFormData({ url: '', rank: '', riotID: '' })}>
-                  Reset
+                <Button className='h-[4rem] w-[4rem] rounded-xl' variant="outline" type="reset" onClick={() => setFormData({ url: '', rank: '', riotID: '' })}>
+                  <RiResetLeftFill />
                 </Button>
-                <Button type="submit">Submit</Button>
+                <Button type="submit" className='bg-[#ff4654] h-[4rem] w-[4rem] rounded-xl'><FaArrowRight /></Button>
               </div>
             </CardFooter>
           </form>
