@@ -59,7 +59,7 @@ const Home = (props: Props) => {
 
   return (
     <div className='w-full h-screen flex flex-col justify-center items-center bg-watchpagebg bg-cover '>
-      <Card className="w-[400px] h-[400px] sm:w-[450px] sm:h-[500px] bg-white rounded-none">
+      <Card className="w-[360px] h-[400px] sm:w-[450px] sm:h-[450px] bg-white rounded-none">
         <CardHeader>
           <CardTitle className='text-2xl'>Submit your video clip</CardTitle>
           <CardDescription className='text-md'>Enter your YouTube URL, Rank, and RiotID.</CardDescription>
@@ -115,17 +115,19 @@ const Home = (props: Props) => {
             </div>
             <CardFooter className="flex flex-col justify-between mt-4">
               <div className='flex flex-row w-full justify-between'>
-                <Button className='h-[4rem] w-[4rem] rounded-xl' variant="outline" type="reset" onClick={() => setFormData({ url: '', rank: '', riotID: '' })}>
+                <Button className='h-[3rem] w-[3rem] sm:h-[4rem] sm:w-[4rem] rounded-xl' variant="outline" type="reset" onClick={() => setFormData({ url: '', rank: '', riotID: '' })}>
                   <RiResetLeftFill />
                 </Button>
-                <Button type="submit" className='bg-[#ff4654] h-[4rem] w-[4rem] rounded-xl'><FaArrowRight /></Button>
+                <Button type="submit" className='bg-[#ff4654] h-[3rem] w-[3rem] sm:h-[4rem] sm:w-[4rem] rounded-xl'><FaArrowRight /></Button>
               </div>
             </CardFooter>
           </form>
         </CardContent>
       </Card>
-      <Instruction />
-      <ToastContainer />
+      {/* <Instruction /> */}
+      <div className='w-full'>
+        <ToastContainer />
+      </div>
     </div>
   );
 };
