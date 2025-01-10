@@ -37,7 +37,7 @@ const Home = (props: Props) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/checking', {
+      const response = await fetch('https://valoreact-api.onrender.com/api/checking', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
