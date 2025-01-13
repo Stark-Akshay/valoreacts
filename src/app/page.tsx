@@ -1,74 +1,109 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"; // Import ShadCN Select components
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useSession } from 'next-auth/react';
-import { redirect } from 'next/navigation';
-import { Instruction } from './(components)/Instruction';
-import { FaArrowRight } from "react-icons/fa";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { RiResetLeftFill } from "react-icons/ri";
-
+import { FaArrowRight, FaInfoCircle } from "react-icons/fa";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 type Props = {};
 
 const Home = (props: Props) => {
-
   const [formData, setFormData] = useState({
-    url: '',
-    rank: '',
-    riotID: ''
+    url: "",
+    rank: "",
+    riotID: "",
   });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    const hasSeenInstructions = localStorage.getItem("hasSeenInstructions");
+    if (!hasSeenInstructions) {
+      setIsModalOpen(true);
+    }
+  }, []);
+
+  const handleAcceptInstructions = () => {
+    localStorage.setItem("hasSeenInstructions", "true");
+    setIsModalOpen(false);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log(formData);
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleRankChange = (value: string) => {
-    // console.log(formData);
     setFormData({ ...formData, rank: value });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('https://valoreact-api.onrender.com/api/checking', {
-        method: 'POST',
+      const response = await fetch("https://valoreact-api.onrender.com/api/checking", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        toast.success('Video submitted successfully!');
-        setFormData({ url: '', rank: '', riotID: '' });
+        toast.success("Video submitted successfully!");
+        setFormData({ url: "", rank: "", riotID: "" });
       } else {
         const data = await response.json();
         toast.error(`Error: ${data.message}`);
       }
     } catch (error) {
-      toast.error('An error occurred while submitting the data.');
+      toast.error("An error occurred while submitting the data.");
     }
   };
 
   return (
-    <div className='w-full h-screen flex flex-col justify-center items-center bg-watchpagebg bg-cover '>
-      <Card className="w-[360px] h-[400px] sm:w-[450px] sm:h-[450px] bg-white rounded-none">
+    <div className="w-full h-screen flex flex-col justify-center items-center bg-watchpagebg bg-cover">
+      {/* Modal for instructions */}
+      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Instructions</DialogTitle>
+          </DialogHeader>
+          <CardContent className="text-gray-800 text-sm font-bold pt-3">
+            <div className="pb-3 ">
+              <ol>
+                <li>1. Please make sure you enter the full YouTube URL. <span className="text-red-700">Eg: https://www.youtube.com/watch?v=fUsaDm9nNkY</span></li>
+              </ol>
+              <ol>
+                <li>2. By submitting the video you accept that this video will be played online in a live stream of <a href="https://www.youtube.com/@MenAtArmsGaMing/streams" className="text-red-700" target="_blank">MenAtArms Gaming</a></li>
+              </ol>
+            </div>
+          </CardContent>
+          <DialogFooter>
+            <Button onClick={handleAcceptInstructions}>Accept</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Card className="w-[380px] h-[400px] sm:w-[450px] sm:h-[500px] bg-white rounded-none">
         <CardHeader>
-          <CardTitle className='text-2xl'>Submit your video clip</CardTitle>
-          <CardDescription className='text-md'>Enter your YouTube URL, Rank, and RiotID.</CardDescription>
+          <div className="flex justify-between items-center">
+            <CardTitle className="text-2xl">Submit your video clip</CardTitle>
+            <FaInfoCircle
+              className="text-xl cursor-pointer"
+              onClick={() => setIsModalOpen(true)}
+              title="View Instructions"
+            />
+          </div>
+          <CardDescription className="text-md">Enter your YouTube URL, Rank, and RiotID.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
             <div className="grid w-full items-center gap-4">
               <div className="flex flex-col space-y-1.5">
-                {/* <Label htmlFor="url">URL</Label> */}
                 <Input
                   id="url"
                   name="url"
@@ -76,15 +111,17 @@ const Home = (props: Props) => {
                   onChange={handleChange}
                   placeholder="Enter the URL"
                   required
-                  className='text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md'
+                  className="text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md"
                 />
               </div>
 
-              {/* Rank select dropdown */}
               <div className="flex flex-col space-y-1.5">
-                {/* <Label htmlFor="rank">Rank</Label> */}
                 <Select value={formData.rank} onValueChange={handleRankChange} required>
-                  <SelectTrigger className='text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md' id="rank" name="rank">
+                  <SelectTrigger
+                    className="text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md"
+                    id="rank"
+                    name="rank"
+                  >
                     <SelectValue placeholder="Select your rank" />
                   </SelectTrigger>
                   <SelectContent>
@@ -101,7 +138,6 @@ const Home = (props: Props) => {
               </div>
 
               <div className="flex flex-col space-y-1.5">
-                {/* <Label htmlFor="riotID">RiotID</Label> */}
                 <Input
                   id="riotID"
                   name="riotID"
@@ -109,25 +145,30 @@ const Home = (props: Props) => {
                   onChange={handleChange}
                   placeholder="Enter your RiotID"
                   required
-                  className='text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md'
+                  className="text-md h-[3rem] sm:!text-xl sm:h-[4rem] border-none border-0 bg-[#ededed] placeholder:text-[#535353] placeholder:font-semibold placeholder:text-md"
                 />
               </div>
             </div>
             <CardFooter className="flex flex-col justify-between mt-4">
-              <div className='flex flex-row w-full justify-between'>
-                <Button className='h-[3rem] w-[3rem] sm:h-[4rem] sm:w-[4rem] rounded-xl' variant="outline" type="reset" onClick={() => setFormData({ url: '', rank: '', riotID: '' })}>
+              <div className="flex flex-row w-full justify-between">
+                <Button
+                  className="h-[4rem] w-[4rem] rounded-xl"
+                  variant="outline"
+                  type="reset"
+                  onClick={() => setFormData({ url: "", rank: "", riotID: "" })}
+                >
                   <RiResetLeftFill />
                 </Button>
-                <Button type="submit" className='bg-[#ff4654] h-[3rem] w-[3rem] sm:h-[4rem] sm:w-[4rem] rounded-xl'><FaArrowRight /></Button>
+                <Button type="submit" className="bg-[#ff4654] h-[4rem] w-[4rem] rounded-xl">
+                  <FaArrowRight />
+                </Button>
               </div>
             </CardFooter>
           </form>
         </CardContent>
       </Card>
-      {/* <Instruction /> */}
-      <div className='w-full'>
-        <ToastContainer />
-      </div>
+
+      <ToastContainer />
     </div>
   );
 };
