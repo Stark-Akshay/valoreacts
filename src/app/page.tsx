@@ -80,10 +80,8 @@ const Home = (props: Props) => {
           <CardContent className="text-gray-800 text-sm pt-3 p-0">
             <div>
               <ol>
-                <li>1. Please make sure you enter the full YouTube URL Eg: <p className="font-bold">https://www.youtube.com/watch?v=fUsaDm9nNkY</p></li>
-              </ol>
-              <ol>
-                <li>2. By submitting the video you accept that this video will be played online in a live stream of <a href="https://www.youtube.com/@MenAtArmsGaMing/streams" className="font-bold" target="_blank">MenAtArms Gaming</a></li>
+                <li className="pb-2">1. By submitting the video you accept that this video will be played online in a live stream of <a href="https://www.youtube.com/@MenAtArmsGaMing/streams" className="font-bold" target="_blank">MenAtArms Gaming</a></li>
+                <li>2. Please refrain from uploading video with music or any copyright content.</li>
               </ol>
             </div>
           </CardContent>
