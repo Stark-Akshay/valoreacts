@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { RiResetLeftFill } from "react-icons/ri";
 import { FaArrowRight, FaInfoCircle } from "react-icons/fa";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { AiOutlineLoading } from "react-icons/ai";
+
 
 type Props = {};
 
@@ -20,6 +22,7 @@ const Home = (props: Props) => {
     riotID: "",
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const hasSeenInstructions = localStorage.getItem("hasSeenInstructions");
@@ -43,6 +46,7 @@ const Home = (props: Props) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await fetch("https://valoreact-api.onrender.com/api/checking", {
         method: "POST",
@@ -62,6 +66,7 @@ const Home = (props: Props) => {
     } catch (error) {
       toast.error("An error occurred while submitting the data.");
     }
+    setLoading(false);
   };
 
   return (
@@ -75,8 +80,10 @@ const Home = (props: Props) => {
           <CardContent className="text-gray-800 text-sm pt-3 p-0">
             <div>
               <ol>
-                <li>1. By submitting the video you accept that this video will be played online in a live stream of <a href="https://www.youtube.com/@MenAtArmsGaMing/streams" className="font-bold" target="_blank">MenAtArms Gaming</a></li>
-                <li>2. Please refrain from submitting content with music or anyother copy right content!</li>
+                <li>1. Please make sure you enter the full YouTube URL Eg: <p className="font-bold">https://www.youtube.com/watch?v=fUsaDm9nNkY</p></li>
+              </ol>
+              <ol>
+                <li>2. By submitting the video you accept that this video will be played online in a live stream of <a href="https://www.youtube.com/@MenAtArmsGaMing/streams" className="font-bold" target="_blank">MenAtArms Gaming</a></li>
               </ol>
             </div>
           </CardContent>
@@ -157,8 +164,8 @@ const Home = (props: Props) => {
                 >
                   <RiResetLeftFill />
                 </Button>
-                <Button type="submit" className="bg-[#ff4654] h-[4rem] w-[4rem] rounded-xl">
-                  <FaArrowRight />
+                <Button type="submit" className={loading ? `bg-[#111823] h-[4rem] w-[4rem] rounded-xl` : `bg-[#ff4654] h-[4rem] w-[4rem] rounded-xl`}>
+                  {loading ? <AiOutlineLoading className="!w-[2rem] !h-[2rem] animate-spin" /> : <FaArrowRight />}
                 </Button>
               </div>
             </CardFooter>

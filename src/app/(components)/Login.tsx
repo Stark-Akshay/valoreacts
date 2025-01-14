@@ -6,14 +6,17 @@ import { Button } from '@/components/ui/button';
 import { useRouter } from "next/navigation";
 import { login } from "../../../actions/user";
 import { useState } from "react";
+import { AiOutlineLoading } from "react-icons/ai";
 const LoginComponent = () => {
     const router = useRouter();
     const [error, setError] = useState<boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     const [formMessage, setFormMessage] = useState<string>('');
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-
+        setLoading(true);
         try {
             const result = await login(formData);
             if (result?.success) {
@@ -31,6 +34,7 @@ const LoginComponent = () => {
             setError(true);
             setFormMessage
         }
+        setLoading(false);
     };
 
     return (
@@ -70,7 +74,9 @@ const LoginComponent = () => {
                             <Button variant="outline" type="reset">
                                 Reset
                             </Button>
-                            <Button type="submit">Login</Button>
+                            <Button type="submit">
+                                {loading ? <AiOutlineLoading className="!w-[1rem] !h-[1rem] animate-spin" /> : "Login"}
+                            </Button>
                         </CardFooter>
                     </form>
                 </CardContent>
