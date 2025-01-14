@@ -68,17 +68,15 @@ const Home = (props: Props) => {
     <div className="w-full h-screen flex flex-col justify-center items-center bg-watchpagebg bg-cover">
       {/* Modal for instructions */}
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent>
+        <DialogContent className="w-[300px] sm:w-auto">
           <DialogHeader>
-            <DialogTitle>Instructions</DialogTitle>
+            <DialogTitle className="text-xl">Instructions</DialogTitle>
           </DialogHeader>
-          <CardContent className="text-gray-800 text-sm font-bold pt-3">
-            <div className="pb-3 ">
+          <CardContent className="text-gray-800 text-sm pt-3 p-0">
+            <div>
               <ol>
-                <li>1. Please make sure you enter the full YouTube URL. <span className="text-red-700">Eg: https://www.youtube.com/watch?v=fUsaDm9nNkY</span></li>
-              </ol>
-              <ol>
-                <li>2. By submitting the video you accept that this video will be played online in a live stream of <a href="https://www.youtube.com/@MenAtArmsGaMing/streams" className="text-red-700" target="_blank">MenAtArms Gaming</a></li>
+                <li>1. By submitting the video you accept that this video will be played online in a live stream of <a href="https://www.youtube.com/@MenAtArmsGaMing/streams" className="font-bold" target="_blank">MenAtArms Gaming</a></li>
+                <li>2. Please refrain from submitting content with music or anyother copy right content!</li>
               </ol>
             </div>
           </CardContent>
