@@ -10,6 +10,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useWindowSize } from 'react-use';
 import Confetti from 'react-confetti'
+import Image from "next/image";
 
 const WatchComponent = () => {
     const { width, height } = useWindowSize();
@@ -17,6 +18,7 @@ const WatchComponent = () => {
     const [error, setError] = useState(false);
     const [noMoreVideos, setNoMoreVideos] = useState("");
     const [feedback, setFeedback] = useState<"success" | "failure" | null>(null);
+    const audioList: string[] = ["https://od.lk/s/MjRfNjY0MzEwMjFf/1.mp3"];
 
     const nextVideo = async (id: string) => {
         try {
@@ -30,7 +32,9 @@ const WatchComponent = () => {
     };
 
     const playFailureAudio = () => {
-        const audio = new Audio("https://od.lk/s/MjRfNjY0MzEwMjFf/1.mp3");
+        let audioSelectIndex = Math.floor(Math.random() * audioList.length);
+        console.log(audioList[audioSelectIndex]);
+        const audio = new Audio(audioList[audioSelectIndex]);
         audio.play();
     };
 
@@ -94,8 +98,9 @@ const WatchComponent = () => {
             {feedback === "success" && <p className="text-green-500 text-lg mt-4">Well guessed!!</p>}
             <div className="flex flex-wrap justify-center gap-4 w-full max-w-3xl mt-6">
                 {ValidRanks.map((rank) => (
-                    <Button className="bg-white text-purple-700 p-3 text-sm md:text-lg" key={rank} onClick={() => checkRank(rank)}>
-                        {rank}
+                    <Button className="bg-valoredColor text-white p-3 text-sm md:text-lg flex flex-row gap-2" key={rank.rankName} onClick={() => checkRank(rank.rankName)}>
+                        <Image src={rank.rankImg} width={30} height={30} alt={rank.rankName} />
+                        {rank.rankName}
                     </Button>
                 ))}
             </div>
