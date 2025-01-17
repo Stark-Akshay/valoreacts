@@ -13,7 +13,7 @@ const WatchPage = async () => {
         redirect('/')
     }
     return (
-        <div className='bg-reaverbg bg-cover h-dvh'>
+        <div className='bg-valobgColor bg-cover h-screen'>
 
             <form action={
                 async () => {

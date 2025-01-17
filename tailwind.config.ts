@@ -15,6 +15,8 @@ export default {
         reaverbg: "url('/reaverbg.jpg')",
       },
       colors: {
+        valobgColor: "#111823",
+        valoredColor: "#ff4654",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {
