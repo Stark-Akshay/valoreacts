@@ -11,6 +11,7 @@ import { RiResetLeftFill } from "react-icons/ri";
 import { FaArrowRight, FaInfoCircle } from "react-icons/fa";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AiOutlineLoading } from "react-icons/ai";
+import { ValidRanks } from "./types/dataType";
 
 
 type Props = {};
@@ -48,7 +49,7 @@ const Home = (props: Props) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("https://valoreact-api.onrender.com/api/checking", {
+      const response = await fetch("http://localhost:5000/api/checking", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -128,14 +129,9 @@ const Home = (props: Props) => {
                     <SelectValue placeholder="Select your rank" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="Iron">Iron</SelectItem>
-                    <SelectItem value="Bronze">Bronze</SelectItem>
-                    <SelectItem value="Gold">Gold</SelectItem>
-                    <SelectItem value="Platinum">Platinum</SelectItem>
-                    <SelectItem value="Diamond">Diamond</SelectItem>
-                    <SelectItem value="Ascendant">Ascendant</SelectItem>
-                    <SelectItem value="Immortal">Immortal</SelectItem>
-                    <SelectItem value="Radiant">Radiant</SelectItem>
+                    {ValidRanks.map((rank, index) => (
+                      <SelectItem key={index} value={rank.rankName}>{rank.rankName}</SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>

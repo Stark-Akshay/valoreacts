@@ -25,34 +25,39 @@ export const ValidRanks: RankType = [
       "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/6/smallicon.png",
   },
   {
-    rankName: "Gold",
+    rankName: "Silver",
     rankImg:
       "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/9/smallicon.png",
   },
   {
-    rankName: "Platinum",
+    rankName: "Gold",
     rankImg:
       "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/12/smallicon.png",
   },
   {
-    rankName: "Diamond",
+    rankName: "Platinum",
     rankImg:
       "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/15/smallicon.png",
   },
   {
-    rankName: "Ascendant",
+    rankName: "Diamond",
     rankImg:
       "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/18/smallicon.png",
   },
   {
-    rankName: "Immortal",
+    rankName: "Ascendant",
     rankImg:
       "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/21/smallicon.png",
   },
   {
-    rankName: "Radiant",
+    rankName: "Immortal",
     rankImg:
       "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/24/smallicon.png",
+  },
+  {
+    rankName: "Radiant",
+    rankImg:
+      "https://media.valorant-api.com/competitivetiers/03621f52-342b-cf4e-4f86-9350a49c6d04/27/smallicon.png",
   },
 ];
 
