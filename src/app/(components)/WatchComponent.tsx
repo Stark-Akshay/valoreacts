@@ -26,7 +26,7 @@ const WatchComponent = () => {
 
     const nextVideo = async (id: string) => {
         try {
-            const res = await axios.delete(`http://localhost:5000/api/deleteData/${id}`);
+            const res = await axios.delete(`https://valoreact-api.onrender.com/api/deleteData/${id}`);
             if (res) {
                 fetchData();
             }
@@ -78,7 +78,7 @@ const WatchComponent = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/retriveOne');
+            const response = await axios.get('https://valoreact-api.onrender.com/api/retriveOne');
             const data = DataSchema.parse(response.data);
             setData(data);
         } catch (err) {
