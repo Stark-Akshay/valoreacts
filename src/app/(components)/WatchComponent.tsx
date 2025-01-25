@@ -6,10 +6,10 @@ import { DataIncoming, DataSchema } from "../types/dataType";
 import VideoPlayer from "../components/VideoPlayer";
 import { Button } from "@/components/ui/button";
 import { ValidRanks } from "../types/dataType";
-import Skeleton from 'react-loading-skeleton'
-import 'react-loading-skeleton/dist/skeleton.css'
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import { useWindowSize } from 'react-use';
-import Confetti from 'react-confetti'
+import Confetti from 'react-confetti';
 import Image from "next/image";
 
 const WatchComponent = () => {
@@ -18,11 +18,15 @@ const WatchComponent = () => {
     const [error, setError] = useState(false);
     const [noMoreVideos, setNoMoreVideos] = useState("");
     const [feedback, setFeedback] = useState<"success" | "failure" | null>(null);
-    const audioList: string[] = ["https://od.lk/s/MjRfNjY0MzEwMjFf/1.mp3"];
+    const [showDialog, setShowDialog] = useState(false);
+    const [correctRank, setCorrectRank] = useState<string | null>(null);
+    const [correctRankImg, setCorrectRankImg] = useState<string | null>(null);
+    const [countdown, setCountdown] = useState(5);
+    const audioList: string[] = ["https://od.lk/s/MjRfNjY0MzEwMjFf/1.mp3", "https://od.lk/s/MjRfNjY0ODEwNDZf/2.mp3", "https://od.lk/s/MjRfNjY0ODEwNDdf/3.mp3", "https://od.lk/s/MjRfNjY0ODEwNDdf/3.mp3"];
 
     const nextVideo = async (id: string) => {
         try {
-            const res = await axios.delete(`https://valoreact-api.onrender.com/api/deleteData/${id}`);
+            const res = await axios.delete(`http://localhost:5000/api/deleteData/${id}`);
             if (res) {
                 fetchData();
             }
@@ -48,16 +52,33 @@ const WatchComponent = () => {
         } else {
             setFeedback("failure");
             playFailureAudio(); // External audio URL
-            setTimeout(() => {
-                if (data?._id) nextVideo(data._id);
-                setFeedback(null);
-            }, 3000); // Show failure feedback for 3 seconds
+            setCorrectRank(data?.rank || ""); // Set the correct rank for dialog
+            const rankImg = ValidRanks.find((r) => r.rankName === data?.rank)?.rankImgL || null;
+            setCorrectRankImg(rankImg); // Set the correct rank image
+            setShowDialog(true); // Show the dialog
+            setCountdown(5); // Reset countdown
         }
     };
 
+    useEffect(() => {
+        let timer: NodeJS.Timeout;
+        if (showDialog) {
+            timer = setInterval(() => {
+                setCountdown((prev) => {
+                    if (prev === 1) {
+                        closeDialogAndLoadNext();
+                        return 0;
+                    }
+                    return prev - 1;
+                });
+            }, 1000);
+        }
+        return () => clearInterval(timer);
+    }, [showDialog]);
+
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://valoreact-api.onrender.com/api/retriveOne');
+            const response = await axios.get('http://localhost:5000/api/retriveOne');
             const data = DataSchema.parse(response.data);
             setData(data);
         } catch (err) {
@@ -67,6 +88,12 @@ const WatchComponent = () => {
                 setError(true);
             }
         }
+    };
+
+    const closeDialogAndLoadNext = () => {
+        setShowDialog(false);
+        if (data?._id) nextVideo(data._id);
+        setFeedback(null);
     };
 
     useEffect(() => {
@@ -89,13 +116,11 @@ const WatchComponent = () => {
 
     return data ? (
         <div className="flex flex-col justify-center items-center px-4 py-6">
-            {feedback == "success" ? <Confetti
-                width={width}
-                height={height}
-            /> : <></>}
+            {feedback == "success" ? <Confetti width={width} height={height} /> : <></>}
             <VideoPlayer data={data} />
             {feedback === "failure" && <p className="text-red-500 text-lg mt-4">Incorrect Rank! Try Again!</p>}
             {feedback === "success" && <p className="text-green-500 text-lg mt-4">Well guessed!!</p>}
+
             <div className="flex flex-wrap justify-center gap-4 w-full max-w-3xl mt-6">
                 {ValidRanks.map((rank) => (
                     <Button className="bg-valoredColor text-white p-3 text-sm md:text-lg flex flex-row gap-2" key={rank.rankName} onClick={() => checkRank(rank.rankName)}>
@@ -104,6 +129,18 @@ const WatchComponent = () => {
                     </Button>
                 ))}
             </div>
+
+            {showDialog && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+                    <div className="bg-white rounded-2xl shadow-2xl p-8 w-11/12 max-w-md transform transition-all duration-300">
+                        <p className="text-lg font-semibold mb-4 text-center text-gray-800">The correct rank was:</p>
+                        {correctRankImg && <Image src={correctRankImg} alt={correctRank || "Rank Image"} width={70} height={70} className="mx-auto mb-4 rounded-full" />}
+                        <p className="text-blue-500 text-2xl font-bold mb-6 text-center">{correctRank}</p>
+                        <p className="text-gray-600 mb-6 text-center">Loading next video in <span className="text-red-500 font-bold">{countdown}</span> seconds...</p>
+                        <Button className="bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-3 rounded-xl shadow-lg hover:scale-105 transform transition-all duration-200" onClick={closeDialogAndLoadNext}>Next Video</Button>
+                    </div>
+                </div>
+            )}
         </div>
     ) : (
         <div className="flex flex-col justify-center items-center px-4 py-6">
