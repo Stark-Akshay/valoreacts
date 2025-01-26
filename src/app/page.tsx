@@ -162,6 +162,9 @@ const Home = (props: Props) => {
                   {loading ? <AiOutlineLoading className="!w-[2rem] !h-[2rem] animate-spin" /> : <FaArrowRight />}
                 </Button>
               </div>
+              <div className="flex flex-row justify-center w-full py-5">
+                <a href="https://www.youtube.com/hashtag/letsbuildvalocommunity" className="text-gray-500 font-bold underline">#letsbuildvalocommunity</a>
+              </div>
             </CardFooter>
           </form>
         </CardContent>

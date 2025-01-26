@@ -129,7 +129,9 @@ const WatchComponent = () => {
                     </Button>
                 ))}
             </div>
-
+            <div className="flex flex-row justify-center w-full py-5">
+                <a href="https://www.youtube.com/hashtag/letsbuildvalocommunity" className="text-gray-500 font-bold underline">#letsbuildvalocommunity</a>
+            </div>
             {showDialog && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
                     <div className="bg-white rounded-2xl shadow-2xl p-8 w-11/12 max-w-md transform transition-all duration-300">
