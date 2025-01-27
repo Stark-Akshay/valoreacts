@@ -24,6 +24,7 @@ const Home = (props: Props) => {
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   useEffect(() => {
     const hasSeenInstructions = localStorage.getItem("hasSeenInstructions");
@@ -59,6 +60,7 @@ const Home = (props: Props) => {
 
       if (response.ok) {
         toast.success("Video submitted successfully!");
+        setIsSubmitted(true);
         setFormData({ url: "", rank: "", riotID: "" });
       } else {
         const data = await response.json();
@@ -68,6 +70,7 @@ const Home = (props: Props) => {
       toast.error("An error occurred while submitting the data.");
     }
     setLoading(false);
+    setIsSubmitted(false);
   };
 
   return (
@@ -162,6 +165,8 @@ const Home = (props: Props) => {
                   {loading ? <AiOutlineLoading className="!w-[2rem] !h-[2rem] animate-spin" /> : <FaArrowRight />}
                 </Button>
               </div>
+              {loading && <p className="text-gray-800 pt-2 text-center">Submitting your data, Please wait until submitted!</p>}
+              {isSubmitted && <p className="text-green-800 pt-1 text-center">Your Data is successfully submitted</p>}
               <div className="flex flex-row justify-center w-full py-5">
                 <a href="https://www.youtube.com/hashtag/letsbuildvalocommunity" className="text-gray-500 font-bold underline">#letsbuildvalocommunity</a>
               </div>
@@ -169,7 +174,6 @@ const Home = (props: Props) => {
           </form>
         </CardContent>
       </Card>
-
       <ToastContainer />
     </div>
   );
