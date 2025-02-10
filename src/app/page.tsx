@@ -95,7 +95,7 @@ const Home = (props: Props) => {
         </DialogContent>
       </Dialog>
 
-      <Card className="w-[380px] h-[400px] sm:w-[450px] sm:h-[500px] bg-white rounded-none">
+      <Card className="w-[350px] h-[500px] sm:w-[450px] sm:h-[500px] bg-white rounded-none">
         <CardHeader>
           <div className="flex justify-between items-center">
             <CardTitle className="text-2xl">Submit your video clip</CardTitle>
