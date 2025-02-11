@@ -37,7 +37,6 @@ const WatchComponent = () => {
 
     const playFailureAudio = () => {
         let audioSelectIndex = Math.floor(Math.random() * audioList.length);
-        console.log(audioList[audioSelectIndex]);
         const audio = new Audio(audioList[audioSelectIndex]);
         audio.play();
     };
